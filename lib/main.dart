@@ -18,14 +18,10 @@ class MyApp extends StatelessWidget {
           appBar: AppBar(
             title: const Text('Список элементов'),
           ),
-          body: ListView(
-            children: const[
-              Text('0000'),
-              Divider(),
-              Text('0001'),
-              Divider(),
-              Text('0010'),
-            ],
+          body: ListView.builder(
+            itemBuilder: (context, index) {
+              return Text('Строка $index');
+            }
           ),
         ),
     );
