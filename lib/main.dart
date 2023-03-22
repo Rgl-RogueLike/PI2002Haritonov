@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:math';
 
 void main() {
   runApp(const MyApp());
@@ -20,7 +21,8 @@ class MyApp extends StatelessWidget {
           ),
           body: ListView.builder(
             itemBuilder: (context, index) {
-              return Text('Строка $index');
+              var num = pow(2, index);
+              return Text('2 ^ $index = $num');
             }
           ),
         ),
