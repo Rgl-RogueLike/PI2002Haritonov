@@ -74,13 +74,13 @@ class _MyHomePageState extends State<MyHomePage> {
               children: <Widget>[
                 ElevatedButton(
                   onPressed: _decrementCounter,
-                  style: ButtonStyle(backgroundColor: MaterialStatePropertyAll<Color>(Colors.red), ),
-                  child: Text('-', style: TextStyle(fontSize: 40),),
+                  style: const ButtonStyle(backgroundColor: MaterialStatePropertyAll<Color>(Colors.red), ),
+                  child: const Text('-', style: TextStyle(fontSize: 40),),
                 ),
                 ElevatedButton(
                   onPressed: _incrementCounter, 
-                    style: ButtonStyle(backgroundColor: MaterialStatePropertyAll<Color>(Colors.green),),
-                    child: Text('+', style: TextStyle(fontSize: 40),),
+                    style: const ButtonStyle(backgroundColor: MaterialStatePropertyAll<Color>(Colors.green),),
+                    child: const Text('+', style: TextStyle(fontSize: 40),),
                   )
               ],
             ),
@@ -89,7 +89,7 @@ class _MyHomePageState extends State<MyHomePage> {
               children: [
                 TextButton(
                   onPressed: _resetCounter,
-                  child: Text('Сбросить', style: TextStyle(fontSize: 20, color: Colors.grey),),
+                  child: const Text('Сбросить', style: TextStyle(fontSize: 20, color: Colors.grey),),
                   ),
               ],
             )
