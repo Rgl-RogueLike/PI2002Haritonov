@@ -58,15 +58,17 @@ void _onPressedLike() {
                       const Column(
                         children:[
                           Align(
-                            alignment: Alignment.centerLeft,
                             child: Text(
                               'Общежитие №20', 
                               style: TextStyle(fontWeight: FontWeight.bold)
                             ),
                           ),
-                          Text(
-                            'Краснодар, ул. Калинина, 13',
-                            style: TextStyle(color: Colors.grey),
+                          Align(
+                            alignment: Alignment.bottomCenter,
+                            child: Text(
+                              'Краснодар, ул. Калинина, 13',
+                              style: TextStyle(color: Colors.grey, fontSize: 11),
+                            ),
                           ),
                         ],
                       ),
