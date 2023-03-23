@@ -84,12 +84,6 @@ class MyFormState extends State {
                      Text('S = $_width * $_height = $_square (см2)', style: const TextStyle(fontSize: 25.0))
                   ],
                 )
-                // Text(
-                //   {if(_square == 0)
-                //     'Задайте параметры'
-                //   else  'S = $_width * $_height = ${_area} (см2)'},
-                //   style: TextStyle(fontSize: 30.0),
-                // ),
             ],
           ),
         ),
