@@ -56,19 +56,15 @@ void _onPressedLike() {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children:[
-                          Align(
-                            child: Text(
-                              'Общежитие №20', 
-                              style: TextStyle(fontWeight: FontWeight.bold)
+                          Text(
+                            'Общежитие №20', 
+                            style: TextStyle(fontWeight: FontWeight.bold)
                             ),
-                          ),
-                          Align(
-                            alignment: Alignment.bottomCenter,
-                            child: Text(
-                              'Краснодар, ул. Калинина, 13',
-                              style: TextStyle(color: Colors.grey, fontSize: 11),
-                            ),
+                          Text(
+                            'Краснодар, ул. Калинина, 13',
+                            style: TextStyle(color: Colors.grey),
                           ),
                         ],
                       ),
@@ -90,7 +86,10 @@ void _onPressedLike() {
                   children: [
                     Column(
                       children: [
-                        IconButton(onPressed: () {},
+                        IconButton(onPressed: () {
+                          const SizedBox(height: 12.0);
+                          const AlertDialog(content: Text('F'), backgroundColor: Colors.amber,);
+                        },
                         icon: const Icon(Icons.phone),
                         color: Colors.green,
                         ),
@@ -100,7 +99,9 @@ void _onPressedLike() {
                     Column(
                       children: [
                         IconButton(
-                          onPressed: (){}, 
+                          onPressed: (){
+                            const AlertDialog(content: Text('В разработке'));
+                          }, 
                           icon: const Icon(Icons.near_me),
                           color: Colors.green,
                           ),
@@ -110,7 +111,11 @@ void _onPressedLike() {
                     Column(
                       children: [
                         IconButton(
-                          onPressed: (){}, 
+                          onPressed: (){
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('В разработке'), backgroundColor: Colors.grey),
+                            );
+                          }, 
                           icon: const Icon(Icons.share),
                           color: Colors.green,
                         ),
