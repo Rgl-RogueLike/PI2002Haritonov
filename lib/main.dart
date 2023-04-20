@@ -6,12 +6,12 @@ class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Главное окно')),
+      appBar: AppBar(title: const Text('Возвращение значения')),
       body: Center(child: ElevatedButton(
         onPressed: (){
           Navigator.push(context, MaterialPageRoute(builder: (context) => const SecondScreen()));
         },
-        child: const Text('Открыть второе окно')
+        child: const Text('приступить к выбору')
       ))
     );
   }
@@ -24,19 +24,46 @@ class SecondScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Второе окно')),
-      body: Center(child: ElevatedButton(
-        onPressed: (){
-          Navigator.pop(context);
-        },
-        child: const Text('Back'),
-      ),),
+      body: Center(
+        child: 
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+              onPressed: (){
+                Navigator.pop(context);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Да!'),
+                    )
+                  );
+              },
+            child: const Text('Да'),
+            ),
+            ElevatedButton(
+              onPressed: (){
+                Navigator.pop(context);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Нет!'),
+                    )
+                  );
+              },
+              child: const Text('Нет'),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
 
 void main() {
-  runApp(const MaterialApp(
-    home: MainScreen(),
-  )
-  );
+  runApp(MaterialApp(
+    initialRoute: '/',
+    routes: {
+      '/':(BuildContext context) => const MainScreen(),
+      '/second':(BuildContext context) => const SecondScreen()
+    }
+  ));
 }
