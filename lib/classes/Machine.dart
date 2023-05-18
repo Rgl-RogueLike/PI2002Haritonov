@@ -1,131 +1,266 @@
-import 'dart:io';
+import 'Enums.dart';
+import 'Methods.dart';
+
+class Resources {
+  late double _coffeeBeans;
+  late double _milk;
+  late double _water;
+  late double _cash;
+  double usercash = 0;
+  Resources({
+    required double coffeeBeans,
+    required double milk,
+    required double water,
+    required double cash,
+  })  : _coffeeBeans = coffeeBeans,
+        _milk = milk,
+        _water = water,
+        _cash = cash;
+
+  //Resources.withCash(double cash) : _cash = cash;
+
+  Resources getResources() {
+    return Resources(
+      coffeeBeans: _coffeeBeans,
+      milk: _milk,
+      water: _water,
+      cash: _cash,
+    );
+  }
+
+  void setResources(Resources value) {
+    _coffeeBeans = value._coffeeBeans;
+    _milk = value._milk;
+    _water = value._water;
+    _cash = value._cash;
+  }
+
+  set cash(double value) {
+    _cash = value;
+  }
+
+  void addCash(double value) {
+    _cash += value;
+  }
+
+  void returnCash() {
+    _cash = 0;
+  }
+
+  void addRes(double value1, double value2, double value3, double value4) {
+    _milk += value1;
+    _water += value2;
+    _coffeeBeans += value3;
+    usercash += value4;
+  }
+
+  void removeRes(double value1, double value2, double value3, double value4) {
+    _milk -= value1;
+    _water -= value2;
+    _coffeeBeans -= value3;
+    usercash -= value4;
+  }
+}
+
+abstract class ICoffee {
+  double coffeeBeans();
+  double milk();
+  double water();
+  double cash();
+}
+
+class Espresso extends ICoffee {
+  @override
+  double coffeeBeans() {
+    return 50;
+  }
+
+  @override
+  double milk() {
+    return 0;
+  }
+
+  @override
+  double water() {
+    return 100;
+  }
+
+  @override
+  double cash() {
+    return 1.5;
+  }
+}
+
+class Americano extends ICoffee {
+  @override
+  double coffeeBeans() {
+    return 50;
+  }
+
+  @override
+  double milk() {
+    return 0;
+  }
+
+  @override
+  double water() {
+    return 200;
+  }
+
+  @override
+  double cash() {
+    return 2.0;
+  }
+}
+
+class Cappuccino extends ICoffee {
+  @override
+  double coffeeBeans() {
+    return 50;
+  }
+
+  @override
+  double milk() {
+    return 100;
+  }
+
+  @override
+  double water() {
+    return 100;
+  }
+
+  @override
+  double cash() {
+    return 2.5;
+  }
+}
+
+class Latte extends ICoffee {
+  @override
+  double coffeeBeans() {
+    return 50;
+  }
+
+  @override
+  double milk() {
+    return 250;
+  }
+
+  @override
+  double water() {
+    return 100;
+  }
+
+  @override
+  double cash() {
+    return 3.0;
+  }
+}
 
 class Machine {
-  int _coffeBeans;
-  int _milk;
-  int _water;
-  int _cash;
+  Resources _resources;
 
-  Machine(this._coffeBeans, this._milk, this._water, this._cash);
+  Machine(this._resources) {
+    this._resources._coffeeBeans = coffeeBeans;
+    this._resources._milk = milk;
+    this._resources._water = water;
+    this._resources._cash = cash;
+  }
 
-  void readComand() {
-    printComands();
-    String? comand = stdin.readLineSync()?.toLowerCase();
-    while ((comand != 'exit' && comand != 'manipulating')) {
-      print('Введите правильный код');
-      comand = stdin.readLineSync()?.toLowerCase();
+  void fillResources() {
+    _resources.setResources(Resources(
+      coffeeBeans: _resources._coffeeBeans,
+      milk: _resources._milk,
+      water: _resources._water,
+      cash: _resources._cash,
+    ));
+  }
+
+  void fillCash(double amount) {
+    _resources.addCash(amount);
+  }
+
+  void addAllRes(
+      double amount1, double amount2, double amount3, double amount4) {
+    _resources.addRes(amount1, amount2, amount3, amount4);
+  }
+
+  void RemoveAllRes(
+      double amount1, double amount2, double amount3, double amount4) {
+    _resources.removeRes(amount1, amount2, amount3, amount4);
+  }
+
+  void returnAllCash() {
+    _resources.returnCash();
+  }
+
+  double get coffeeBeans => _resources._coffeeBeans;
+
+  double get milk => _resources._milk;
+
+  double get water => _resources._water;
+
+  double get cash => _resources._cash;
+
+  double get usercash => _resources.usercash;
+
+  bool isAvailableResources(ICoffee coffeeType) {
+    return _resources._coffeeBeans >= coffeeType.coffeeBeans() &&
+        _resources._milk >= coffeeType.milk() &&
+        _resources._water >= coffeeType.water() &&
+        _resources._cash >= coffeeType.cash();
+  }
+
+  Future<List<String>> makeCoffeeByType(CoffeeType coffeeType) async {
+    MessageHandler messageHandler = MessageHandler();
+    messageHandler.clearMessages();
+    ICoffee coffee;
+
+    switch (coffeeType) {
+      case CoffeeType.espresso:
+        coffee = Espresso();
+        break;
+      case CoffeeType.americano:
+        coffee = Americano();
+        break;
+      case CoffeeType.cappuccino:
+        coffee = Cappuccino();
+        break;
+      case CoffeeType.latte:
+        coffee = Latte();
+        break;
     }
-    if (comand == 'exit') {
-      return;
-    } else if (comand == 'manipulating') {
-      print('Доступные команды: "Сварить кофе", "Добавить ресурс"');
-      comand = stdin.readLineSync()?.toLowerCase();
-      while (comand != 'add res' && comand != 'make coffee') {
-        print('Ввдите правильный код');
-        comand = stdin.readLineSync()?.toLowerCase();
+
+    if (isAvailableResources(coffee)) {
+      _resources._coffeeBeans -= coffee.coffeeBeans();
+      _resources._milk -= coffee.milk();
+      _resources._water -= coffee.water();
+      _resources._cash -= coffee.cash();
+      _resources.usercash += coffee.cash();
+
+      messageHandler.addMessage('*————*');
+      messageHandler.addMessage('_start_');
+
+      await heatWater();
+      messageHandler.addMessage('_then_');
+      await brewCoffee();
+      if (coffeeType == CoffeeType.cappuccino ||
+          coffeeType == CoffeeType.latte) {
+        await frothMilk();
+        await mixCoffeeAndMilk();
       }
-      if (comand == 'add res') {
-        String? res = '';
-        int q = -1;
-        while (res != 'milk' &&
-            res != 'coffee' &&
-            res != 'water' &&
-            res != 'cash') {
-          print('Выберите какой ресурс добавить (молоко, вода, кофе, наличные)');
-          res = (stdin.readLineSync())?.toLowerCase();
-        }
-        while (q < 0) {
-          print('Введите количество ресурсов');
-          q = int.parse(stdin.readLineSync()!);
-        }
-        switch (res) {
-          case 'milk':
-            _milk += q;
-            print(map);
-            readComand();
-            break;
-          case 'coffee':
-            _coffeBeans += q;
-            print(map);
-            readComand();
-            break;
-          case 'water':
-            _water += q;
-            print(map);
-            readComand();
-            break;
-          case 'cash':
-            _cash += q;
-            print(map);
-            readComand();
-            break;
-        }
-      }
-      if (comand == 'make coffee') {
-        makingCofee();
-      }
-    }
-  }
-
-  set milk(int num) {
-    if (num >= 0) {
-      _milk = num;
-    }
-  }
-
-  set coffe(int num) {
-    if (num >= 0) {
-      _coffeBeans = num;
-    }
-  }
-
-  set water(int num) {
-    if (num >= 0) {
-      _water = num;
-    }
-  }
-
-  set cash(int num) {
-    if (num >= 0) {
-      _cash = num;
-    }
-  }
-
-  bool isAvailableRes() {
-    if (_coffeBeans >= 50 && _water >= 100) {
-      return true;
-    }
-    return false;
-  }
-
-  void makingCofee() {
-    if (isAvailableRes()) {
-      print('Ваш кофе готовится \n');
-      subatractRes();
-      print(map);
-      readComand();
+      messageHandler.addMessage(
+          'Your ${coffeeType.toString().split('.').last} is ready!');
     } else {
-      print(
-          'Для этой операции требуется: Кофе в зернах-50г, вода-100мл.\nУ нас есть ${_coffeBeans}г кофее и ${_water}мл воды');
-      readComand();
+      messageHandler.addMessage(
+          'Not enough resources to make ${coffeeType.toString().split('.').last}');
     }
-  }
 
-  void subatractRes() {
-    _coffeBeans -= 50;
-    _water -= 100;
+    return messageHandler.getMessages();
   }
+}
 
-  Map<String, dynamic> get map {
-    return {
-      "coffee": _coffeBeans,
-      "milk": _milk,
-      "water": _water,
-      "cash": _cash,
-    };
-  }
-
-  void printComands() {
-    print('Доступные команды: "Редактирование", "Выход"');
-  }
+void main() {
+  Machine mach =
+      new Machine(Resources(coffeeBeans: 100, milk: 100, water: 100, cash: 0));
 }
